@@ -38,16 +38,11 @@ positiv_list = []      # letters in the word
 letter_places = []     # letters on the right place
 letter_no_place = []   # list of letters not on this place
 two_letter = []        # two or more of the same letter
+one_letter = []
 
 player_try = 0
 
 filtered_words = []
-
-
-
-
-
-
 
 
 def check_if_consistent(pattern, word):
@@ -67,15 +62,13 @@ def check_if_consistent(pattern, word):
             if letter_places[index] != '' and letter_places[index] != word[index]:
                 return False
 
-        if wildcard =='y':
+        if wildcard == 'y':
             if letter_places[index] == word[index]:
                 return False
 
         if wildcard == 'g' or wildcard == 'y':
             # print('wildcard  g und y')
             positiv_letters.append(word[index])
-
-
 
         if wildcard == 'b' and letter_places[index] == word[index]:
             # this black letter should be green
@@ -96,7 +89,6 @@ def check_if_consistent(pattern, word):
 
 
 def update_letter_lists(pattern, word):
-
 
     # update :
     #
@@ -142,13 +134,9 @@ def update_letter_lists(pattern, word):
             if letter not in positiv_list:
                 negativ_list.append(letter)
             else:
-
-                if letter in letter_places:
-                    for pindex, pletter in enumerate(letter_places):
-                        if pletter != letter:
-                            letter_no_place[pindex] += letter
-                else:
-                    letter_no_place[index] += letter
+                if positiv_letter.count(letter) == 1 :
+                    one_letter.append(letter)
+                letter_no_place[index] += letter
 
     #
     # print(" letter_places : ", letter_places)
@@ -157,8 +145,10 @@ def update_letter_lists(pattern, word):
     # print(" Positiv Liste : ", positiv_list)
 
     # print(" Letter not on this place ", letter_no_place)
+    # print(" one letter ", one_letter)
+    # print(" two letter ", two_letter)
 
-    return len(letter_places)
+    # return len(letter_places)
 
 
 def filter_list(prior_list):
@@ -195,13 +185,24 @@ def filter_list(prior_list):
 
                         legal_word = False
                         break
-                if legal_word:
 
-                    for letter in two_letter:
-                        # print(letter, word, word.count(letter))
-                        if word.count(letter) < 2:
+                    if word.count(letter)<2:
+                        if letter in two_letter:
                             legal_word = False
                             break
+                    else:
+                        if letter in one_letter:
+                            legal_word = False
+                            break
+
+                # if legal_word:
+
+                    
+                #    for letter in two_letter:
+                        # print(letter, word, word.count(letter))
+                        #if word.count(letter) < 2:
+                        #    legal_word = False
+                        #    break
 
         if legal_word:
             our_list.append(word)
@@ -396,6 +397,7 @@ def init_lists():
     letter_places.clear()    # letters on correct place
     letter_no_place.clear()  # letters not on this place
     two_letter.clear()       # two or more of letter XY in this word
+    one_letter.clear()
 
     for place in range(WORD_LENGTH_NEEDED):
         letter_no_place.append('')
