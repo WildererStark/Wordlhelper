@@ -148,7 +148,7 @@ def update_letter_lists(pattern, word):
     # print(" one letter ", one_letter)
     # print(" two letter ", two_letter)
 
-    # return len(letter_places)
+    #  return len(letter_places)
 
 
 def filter_list(prior_list):
@@ -238,7 +238,7 @@ def load_selected_language():
     f.close()
 
     filtered_words = sorted(filtered_words)
-
+    list_items.set(filtered_words)
     word_pattern_button['state'] = NORMAL
 
     showinfo(
@@ -397,7 +397,7 @@ def init_lists():
     letter_places.clear()    # letters on correct place
     letter_no_place.clear()  # letters not on this place
     two_letter.clear()       # two or more of letter XY in this word
-    one_letter.clear()
+    one_letter.clear()       # only one letter XY in this word
 
     for place in range(WORD_LENGTH_NEEDED):
         letter_no_place.append('')
@@ -412,7 +412,8 @@ def init_lists():
     show_user_words(my_words, my_patterns)
 
     filtered_words.clear()
-
+    user_word.set('')
+    pattern.set('')
 
 def handle_user_input():
 
@@ -435,6 +436,7 @@ def handle_user_input():
 
         player_try += 1
 
+        # print(filtered_words)
         # print('try',player_try)
         # print(my_words)
 
@@ -521,11 +523,22 @@ show_filtered_frame = tk.Frame(root)
 list_items = tk.StringVar(value=filtered_words)
 
 myListbox = tk.Listbox(show_filtered_frame, listvariable=list_items,
-                       activestyle='none', height=20, width=7)
+                       activestyle='none', selectmode = tk.SINGLE, height=19, width=7)
 
+# myListbox : scrolling does not show the last word, if height = 20
 
 myListbox.grid(row=0, column=0, sticky=tk.EW)
 myListbox.config(font=("Arial", 16))
+
+def item_selected(event):
+    selected_indice = myListbox.curselection()
+    selelected_word = myListbox.get(selected_indice)
+    msg = f'You selected: {selelected_word}'
+    showinfo(title= "Listbox - Info", message=msg)
+    user_word.set(selelected_word)
+
+
+myListbox.bind("<<ListboxSelect>>", item_selected)
 
 # Bind a Scrollbar per command
 
