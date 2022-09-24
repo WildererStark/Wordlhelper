@@ -28,7 +28,7 @@ Abruf
 absah
 Absud
 abtat
-AEbte
+Aebte
 Abtei
 Abtes
 abtue
@@ -62,7 +62,7 @@ adelt
 Adept
 Adern
 adieu
-AEdil
+Aedil
 Adler
 adlig
 Adlon
@@ -108,9 +108,8 @@ ahnen
 ahnst
 ahnte
 Ahorn
-AEhre
+Aehre
 Aidas
-Aimée
 Aioli
 Aires
 Akaba
@@ -126,7 +125,6 @@ Aktor
 akute
 alaaf
 Alain
-Åland
 Alarm
 Alaun
 Alban
@@ -253,11 +251,10 @@ antut
 Anwar
 anzog
 Anzug
-AEons
+Aeons
 Aorta
 Aosta
 apart
-Apéro
 Apfel
 Apnoe
 Apoll
@@ -267,6 +264,7 @@ Apsis
 Aquin
 Arals
 Arbon
+ArbZG
 Arche
 Arcor
 Arcus
@@ -281,7 +279,6 @@ arges
 Argon
 Argot
 Argus
-Århus
 Arial
 aride
 Ariel
@@ -333,7 +330,7 @@ Assen
 Asses
 Asset
 aeste
-AEste
+Aeste
 Aster
 Astes
 Astor
@@ -348,7 +345,7 @@ Athos
 Atlas
 atmen
 atmet
-AEtna
+Aetna
 Atoll
 Atome
 Atoms
@@ -381,8 +378,7 @@ axial
 Axiom
 Axone
 Axons
-AExte
-Ayças
+Aexte
 Aylas
 Aylin
 Ayran
@@ -401,6 +397,7 @@ baden
 Bader
 Bades
 badet
+BaFin
 Bagel
 Bahai
 bahne
@@ -471,13 +468,17 @@ Bauch
 bauen
 Bauer
 Baues
+BauGB
 Baums
 baust
 baute
+BaWue
 Bayer
 Bayes
+BayWa
 Bazar
 Bazis
+BBesG
 Beach
 beame
 beamt
@@ -514,7 +515,6 @@ beizt
 bekam
 Belag
 Belas
-Bélas
 Beleg
 Bella
 belle
@@ -531,6 +531,7 @@ Benno
 Benns
 Benny
 Beppo
+BerEb
 berge
 Bergs
 bergt
@@ -567,6 +568,7 @@ bewog
 Beyer
 bezog
 Bezug
+BGHSt
 Bibel
 Biber
 Bidet
@@ -611,6 +613,7 @@ Biwak
 Bixby
 Bizet
 Blair
+BLAeK
 Blake
 blank
 blase
@@ -711,6 +714,7 @@ Boxer
 boxte
 Boyne
 Bozen
+BPatG
 brach
 Braga
 Brand
@@ -813,9 +817,6 @@ cache
 cacht
 Caddy
 Cadiz
-Cádiz
-Cafés
-Cajón
 Calws
 campe
 Camps
@@ -823,7 +824,6 @@ campt
 Camus
 Canna
 Canon
-Cañon
 Capes
 Capri
 Cards
@@ -837,6 +837,7 @@ Carta
 Cathy
 Catos
 causa
+CeBIT
 Celan
 Cella
 Celle
@@ -927,16 +928,13 @@ Credo
 Creek
 Crema
 creme
-Crème
 cremt
-Crêpe
 Crews
 Crime
 Crocs
 Cross
 Curie
 Curry
-Cuvée
 Cyber
 Cybex
 dabei
@@ -952,7 +950,6 @@ Daker
 dalag
 Dalai
 Dalis
-Dalís
 dalli
 Damen
 damit
@@ -1037,6 +1034,7 @@ Deutz
 Devon
 devot
 Dewey
+DGzRS
 Dhabi
 Dhaka
 Diana
@@ -1082,6 +1080,7 @@ disst
 Divas
 Diven
 Diwan
+DJane
 Docht
 docke
 Docks
@@ -1127,6 +1126,7 @@ doest
 Dover
 Doyen
 Doyle
+DPolG
 Draht
 Drake
 drall
@@ -1152,6 +1152,8 @@ Drops
 druck
 Drums
 Druse
+DSchG
+DSLRs
 duale
 Dubai
 dubio
@@ -1206,7 +1208,6 @@ ecken
 eckig
 eckst
 eckte
-École
 Edams
 Eddas
 Eddie
@@ -1230,6 +1231,7 @@ Effet
 Egeln
 Egels
 Eggen
+eGmbH
 Egons
 ehern
 ehren
@@ -1313,7 +1315,6 @@ Emden
 Emder
 Emely
 Emile
-Émile
 Emils
 Emily
 Emire
@@ -1382,6 +1383,7 @@ Esaus
 Esche
 Eseln
 Esels
+eSIMs
 Espen
 Essay
 essen
@@ -1435,7 +1437,6 @@ Fabio
 fache
 Fachs
 facht
-Façon
 facto
 fadem
 faden
@@ -1460,6 +1461,7 @@ fallt
 falte
 falze
 falzt
+FamFG
 famos
 Fanal
 fange
@@ -1496,6 +1498,7 @@ Faxes
 faxte
 Fazit
 Feder
+FedEx
 fegen
 Feger
 fegst
@@ -1785,6 +1788,8 @@ Gauls
 Gauss
 Gazas
 Gazen
+GBits
+GByte
 gebar
 geben
 Geber
@@ -1842,6 +1847,7 @@ getan
 Getto
 Getty
 Getue
+gGmbH
 Ghali
 Ghana
 gibst
@@ -1880,6 +1886,7 @@ gluck
 Glueh
 Gluon
 Gmail
+GmbHs
 gnade
 Gneis
 Gnome
@@ -1896,7 +1903,6 @@ golfe
 Golfs
 golft
 Gomez
-Gómez
 Gongs
 gongt
 goenn
@@ -2095,6 +2101,7 @@ Haxen
 Haydn
 Hayes
 Hazel
+HbbTV
 Heavy
 Hebel
 heben
@@ -2222,6 +2229,7 @@ hinzu
 Hiobs
 hippe
 Hippo
+HiRes
 Hirne
 Hirni
 Hirns
@@ -2516,7 +2524,6 @@ Jochs
 Jodat
 Jodid
 Joels
-Joëls
 Joeys
 jogge
 joggt
@@ -2538,7 +2545,6 @@ Joerg
 Jorge
 Joern
 Josef
-Josés
 Josua
 Joule
 Joyce
@@ -2673,6 +2679,8 @@ kauft
 Kauri
 kaust
 kaute
+KBaud
+KByte
 Kebab
 kecke
 Kedar
@@ -2764,6 +2772,7 @@ Kitts
 Kitty
 Kitze
 Kiwis
+kkStB
 klack
 klage
 klagt
@@ -2884,6 +2893,7 @@ Kotau
 koten
 kotze
 kotzt
+KPdSU
 Kraal
 Krach
 Krads
@@ -3016,7 +3026,6 @@ lalle
 lallt
 Lamas
 Lamee
-Lamés
 Lamms
 Lampe
 Lanas
@@ -3043,6 +3052,7 @@ lasst
 laste
 Lasur
 Latex
+LaTeX
 Latte
 latze
 latzt
@@ -3071,6 +3081,7 @@ laxem
 laxen
 laxer
 laxes
+LBauO
 Leaks
 Lears
 lease
@@ -3161,6 +3172,7 @@ Leyla
 Lhasa
 Liane
 licht
+LiDAR
 Lider
 Lides
 Lidos
@@ -3253,7 +3265,6 @@ Lokus
 Lolli
 Looks
 Lopez
-López
 Lords
 Loren
 Lores
@@ -3343,6 +3354,7 @@ Macho
 Machs
 macht
 Macke
+macOS
 Madam
 Maden
 madig
@@ -3418,7 +3430,6 @@ Maren
 Marga
 Marge
 Maria
-María
 Marie
 Marik
 marin
@@ -3462,10 +3473,13 @@ Mayen
 Mayer
 Mayrs
 Mazda
+MByte
+McCay
+McCoy
+McKay
 Mecki
 Medea
 Media
-Médoc
 Meere
 Meers
 Mehle
@@ -3507,7 +3521,6 @@ messt
 Mesut
 Meter
 Metro
-Métro
 Mette
 Metze
 Meute
@@ -3555,7 +3568,6 @@ minus
 Minze
 Miras
 Mirko
-Mirós
 Mirow
 misch
 misse
@@ -3630,6 +3642,7 @@ motzt
 Mount
 Movie
 Moewe
+mtDNA
 mucke
 Mucki
 Mucks
@@ -3670,6 +3683,7 @@ mutig
 Mutti
 myope
 Myrte
+MySQL
 Myzel
 Nabel
 Naben
@@ -3787,7 +3801,6 @@ Nikos
 nimmt
 Ninas
 Ninja
-Niños
 Niobs
 nippe
 nippt
@@ -3815,6 +3828,7 @@ Noras
 Norma
 norme
 North
+NoSQL
 Notar
 Noete
 Noten
@@ -3855,7 +3869,7 @@ Odeur
 Odins
 Odium
 Oelde
-OEfen
+Oefen
 Ofens
 offen
 Oheim
@@ -3863,7 +3877,7 @@ Ohios
 Ohren
 Ohres
 Okapi
-OEkos
+Oekos
 oktal
 Oktan
 Oktav
@@ -3907,10 +3921,10 @@ opfre
 Opiat
 Opitz
 Opium
+OePNV
 Optik
 orale
 Orang
-Orbán
 Orbis
 Orbit
 Orcas
@@ -3935,7 +3949,7 @@ Osaka
 Osama
 Oscar
 Oschi
-OEsen
+Oesen
 Oskar
 Oslos
 Osman
@@ -3947,7 +3961,7 @@ Ostia
 Otmar
 Otter
 Ottos
-OEtzi
+Oetzi
 outen
 outet
 ovale
@@ -4051,6 +4065,7 @@ Peggy
 peile
 peilt
 Peine
+PEKiP
 pelle
 pellt
 Pelze
@@ -4064,7 +4079,6 @@ peppt
 Pepsi
 Percy
 perdu
-Pérez
 perle
 perlt
 Perry
@@ -4104,7 +4118,6 @@ piano
 Piave
 picke
 pickt
-Piëch
 Pieck
 piepe
 Pieps
@@ -4237,6 +4250,7 @@ Prinz
 Prior
 Prise
 Prius
+PRler
 probe
 probt
 Profi
@@ -4248,6 +4262,7 @@ prost
 Protz
 Proxy
 Prunk
+PSAgA
 Psalm
 Pucks
 Pudel
@@ -4360,7 +4375,6 @@ Rambo
 ramme
 rammt
 Ramon
-Ramón
 Rampe
 Ranch
 Rande
@@ -4474,8 +4488,6 @@ remis
 Remix
 Remus
 renal
-Renée
-Renés
 renke
 renkt
 renne
@@ -4504,7 +4516,6 @@ Rhema
 Rhode
 Rhoen
 Rhone
-Rhône
 Riads
 Ricas
 Richy
@@ -4730,7 +4741,6 @@ sannt
 Santa
 Santo
 Sanyo
-Saône
 Saori
 Sarah
 Saras
@@ -4832,7 +4842,6 @@ senil
 senke
 senkt
 Senne
-Señor
 Sense
 Senta
 Seoul
@@ -4991,7 +5000,6 @@ Sonys
 sooft
 Sopor
 Sorbe
-Søren
 sorge
 sorgt
 sorry
@@ -5057,6 +5065,7 @@ Spund
 spuer
 Spurt
 spute
+SpVgg
 Squaw
 Staat
 Stabs
@@ -5154,6 +5163,7 @@ Sturm
 Sturz
 Stuss
 Stute
+StVZO
 style
 stylt
 Suada
@@ -5206,7 +5216,6 @@ Szene
 Tabak
 Tabea
 Tabor
-Tábor
 Tabus
 Tacho
 Tacos
@@ -5222,7 +5231,6 @@ taggt
 tagst
 tagte
 Taiga
-Taíno
 Takel
 takle
 takte
@@ -5288,6 +5296,7 @@ Taxen
 Taxis
 Taxon
 Taxus
+TByte
 Teams
 Teddy
 Teeei
@@ -5502,6 +5511,7 @@ Trios
 Trips
 trist
 tritt
+tRNAs
 Troas
 Troer
 troff
@@ -5565,6 +5575,7 @@ Tutor
 Tutsi
 tutti
 Tutus
+TVoeD
 Twain
 Tweed
 Tweet
@@ -5578,6 +5589,7 @@ Typus
 Tyros
 Tyrus
 Tyson
+TzBfG
 uebel
 ueben
 ueber
@@ -5587,6 +5599,7 @@ uebst
 uebte
 Uchta
 Udine
+UdSSR
 Uedem
 ufere
 ufern
@@ -5648,6 +5661,7 @@ uralt
 Urans
 urban
 urbar
+UrhWG
 Uriel
 urige
 Urins
@@ -5768,6 +5782,7 @@ Voten
 Votum
 vulgo
 Vulva
+VwVfG
 Waadt
 Waage
 Waben
@@ -5835,6 +5850,8 @@ Watts
 Wayne
 weben
 Weber
+WebEx
+webOS
 webst
 webte
 wecke
@@ -6159,6 +6176,7 @@ Zosse
 Zoten
 zotig
 Zotte
+ZStGV
 Zubau
 Zuber
 Zucht

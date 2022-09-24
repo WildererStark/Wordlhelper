@@ -195,14 +195,7 @@ def filter_list(prior_list):
                             legal_word = False
                             break
 
-                # if legal_word:
 
-                    
-                #    for letter in two_letter:
-                        # print(letter, word, word.count(letter))
-                        #if word.count(letter) < 2:
-                        #    legal_word = False
-                        #    break
 
         if legal_word:
             our_list.append(word)
@@ -462,12 +455,12 @@ filter_frame = tk.Frame(root)
 filter_frame.columnconfigure(1, weight=1)
 # filter_frame.rowconfigure(2, weight=1)
 
-world_label = ttk.Label(filter_frame, text='Your word :',
+word_label = ttk.Label(filter_frame, text='Your word :',
                         font=('Courier New', 12))
 word_entry = ttk.Entry(filter_frame, width=6,
                        textvariable=user_word, font=('Courier New', 12))
 
-world_label.grid(column=0, row=0, sticky=tk.W)
+word_label.grid(column=0, row=0, sticky=tk.W)
 word_entry.grid(column=1, row=0, sticky=tk.E)
 word_entry.focus()
 
