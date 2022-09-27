@@ -1,8 +1,8 @@
 import tkinter as tk
 import tkinter.font as font
-from tkinter import DISABLED, NORMAL, ttk
+from tkinter import DISABLED, NORMAL, ANCHOR, ttk
 from tkinter.messagebox import showinfo
-
+import re
 
 # To do :
 
@@ -88,15 +88,16 @@ def check_if_consistent(pattern, word):
     return True
 
 
-def update_letter_lists(pattern, word):
+def update_letter_lists(pattern, word ):
 
     # update :
     #
-    # positiv_letter
-    # negativ_letter
+    # positiv_list
+    # negativ_list
     # letter_places
     # letter_no_place
     # two_letter
+    # one_letter
 
     positiv_letter = []  # letters marked with yellow or green
 
@@ -148,96 +149,40 @@ def update_letter_lists(pattern, word):
     # print(" one letter ", one_letter)
     # print(" two letter ", two_letter)
 
-    #  return len(letter_places)
 
 
 def filter_list(prior_list):
 
-    our_list = []
 
-    for word in prior_list:
+    our_list = list(filter( lambda word: set(word).isdisjoint(negativ_list), prior_list))
+    our_list = list(filter( lambda word: set(positiv_list).issubset(set(word)), our_list))
+ 
+    regex =''
+    for c in letter_places:
+        if c =='':
+            regex += '.'
+        else:
+            regex += c
+    
+    reg_pattern = re.compile(regex)
+    our_list = [word for word in our_list if reg_pattern.match(word)]
 
-        legal_word = True
+    def misc_filter(word):
+        for index, letter in enumerate(word):
+            if letter in letter_no_place[index]:
+                return False
+            if word.count(letter)<2 and letter in two_letter:
+                return False
+            if word.count(letter)>=2 and letter in one_letter:
+                return False
+        return True
 
-        for index, letter in enumerate(letter_places):
-            if letter != '':
-                if word[index] != letter:
+    our_list = [word for word in our_list if misc_filter(word)]            
 
-                    legal_word = False
-                    break
-
-        if legal_word:
-            for letter in positiv_list:
-                if letter not in word:
-
-                    legal_word = False
-                    break
-
-            if legal_word:
-                for index, letter in enumerate(word):
-
-                    if letter in negativ_list:
-
-                        legal_word = False
-                        break
-
-                    if letter in letter_no_place[index]:
-
-                        legal_word = False
-                        break
-
-                    if word.count(letter)<2:
-                        if letter in two_letter:
-                            legal_word = False
-                            break
-                    else:
-                        if letter in one_letter:
-                            legal_word = False
-                            break
-
-
-
-        if legal_word:
-            our_list.append(word)
-
-    # print("Our filtered list ", our_list)
-    # print("Count of the legal words", len(our_list))
-
+    
     return our_list
 
 
-##########################################################################
-#
-# load the words
-
-
-def load_selected_language():
-
-    global filtered_words
-
-    init_lists()
-
-    if language_selected.get() == "English":
-        wordfile = ENG_WORD_FILE
-    else:
-        wordfile = GER_WORD_FILE
-
-    f = open(wordfile, 'r')
-
-    for line in f:
-        my_word = line[0:len(line) - 1]
-        filtered_words.append(my_word.upper())
-
-    f.close()
-
-    filtered_words = sorted(filtered_words)
-    list_items.set(filtered_words)
-    word_pattern_button['state'] = NORMAL
-
-    showinfo(
-        title='The Language',
-        message=language_selected.get()
-    )
 
 
 #############################################################################
@@ -286,6 +231,39 @@ def show_user_words(words, patterns):
 #
 #  GUI   select language frame
 
+##########################################################################
+#
+# load the words
+
+
+def load_selected_language():
+
+    global filtered_words
+
+    init_lists()
+
+    if language_selected.get() == "English":
+        wordfile = ENG_WORD_FILE
+    else:
+        wordfile = GER_WORD_FILE
+
+    f = open(wordfile, 'r')
+
+    for line in f:
+        my_word = line[0:len(line) - 1]
+        filtered_words.append(my_word.upper())
+
+    f.close()
+
+    # filtered_words = sorted(filtered_words)
+    filtered_words.sort()
+    list_items.set(filtered_words)
+    word_pattern_button['state'] = NORMAL
+
+    showinfo(
+        title='The Language',
+        message=language_selected.get()
+    )
 
 language_selected = tk.StringVar()
 
@@ -307,6 +285,8 @@ rb_german = ttk.Radiobutton(
     value='Deutsch',
     variable=language_selected)
 rb_german.grid(column=0, row=2, sticky="W")
+
+language_selected.set('English')
 
 language_start_button = ttk.Button(
     language_frame,
@@ -491,9 +471,6 @@ filter_frame.grid(column=0, row=1, columnspan=3, sticky=tk.EW, padx=5, pady=5)
 # Show list of colored user words (Words/pattern)
 
 
-# set the font.
-fnt = font.Font(family='Times New Roman')
-
 
 words_colored_frame = tk.Frame(root)
 words_colored_frame.columnconfigure(WORD_LENGTH_NEEDED, weight=1)
@@ -515,23 +492,30 @@ show_filtered_frame = tk.Frame(root)
 
 list_items = tk.StringVar(value=filtered_words)
 
+
 myListbox = tk.Listbox(show_filtered_frame, listvariable=list_items,
-                       activestyle='none', selectmode = tk.SINGLE, height=19, width=7)
+                        height=19, width=7)
 
 # myListbox : scrolling does not show the last word, if height = 20
 
 myListbox.grid(row=0, column=0, sticky=tk.EW)
 myListbox.config(font=("Arial", 16))
 
-def item_selected(event):
-    selected_indice = myListbox.curselection()
-    selelected_word = myListbox.get(selected_indice)
-    msg = f'You selected: {selelected_word}'
-    showinfo(title= "Listbox - Info", message=msg)
-    user_word.set(selelected_word)
 
+
+def item_selected(event):
+    # selected_indice = myListbox.curselection()
+    # selected_word = myListbox.get(selected_indice)
+    selected_word = myListbox.get(ANCHOR)
+    msg = f'You selected: {selected_word}'
+    showinfo(title= "Listbox - Info", message=msg)
+    myListbox.select_clear(0, tk.END)
+
+    user_word.set(selected_word)
+    # word_entry.focus()
 
 myListbox.bind("<<ListboxSelect>>", item_selected)
+
 
 # Bind a Scrollbar per command
 
