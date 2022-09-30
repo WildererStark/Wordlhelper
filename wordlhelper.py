@@ -494,7 +494,12 @@ list_items = tk.StringVar(value=filtered_words)
 
 
 myListbox = tk.Listbox(show_filtered_frame, listvariable=list_items,
-                        height=19, width=7)
+                        height=19, width=7, exportselection = False)
+
+
+# exportselection : Setting it to False prevents the export 
+# of the selection to the X selection, 
+# allowing the widget to retain its selection when a different widget gets focus.
 
 # myListbox : scrolling does not show the last word, if height = 20
 
