@@ -247,7 +247,14 @@ def load_selected_language():
     else:
         wordfile = GER_WORD_FILE
 
-    f = open(wordfile, 'r')
+    try:
+        f = open(wordfile, 'r')
+    except FileNotFoundError:
+        showinfo(
+            title="Missing Word-File",
+            message=f"File {wordfile}not found"
+        )
+        quit()
 
     for line in f:
         my_word = line[0:len(line) - 1]
