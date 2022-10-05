@@ -38,66 +38,27 @@ positiv_list = []      # letters in the word
 letter_places = []     # letters on the right place
 letter_no_place = []   # list of letters not on this place
 two_letter = []        # two or more of the same letter
-one_letter = []
+one_letter = []        # only one of letter xy in word
 
 player_try = 0
 
 filtered_words = []
 
+my_words = []      # words, the user typed
+my_patterns = []   # gamereaction , transscripted from user in a pattern like 'bbygb'
 
-def check_if_consistent(pattern, word):
-
-    # check if current inputs (pattern, word) contradicts early inputs
-
-    positiv_letters = []  # letters marked with yellow (y) or green (g)
-    black_letters = []    # letters marked with black/grey (b)
-
-    word = word.upper()
-    pattern = pattern.lower()
-
-    for index, wildcard in enumerate(pattern):
-
-        if wildcard == 'g':
-            # wrong green letter on this place
-            if letter_places[index] != '' and letter_places[index] != word[index]:
-                return False
-
-        if wildcard == 'y':
-            if letter_places[index] == word[index]:
-                return False
-
-        if wildcard == 'g' or wildcard == 'y':
-            # print('wildcard  g und y')
-            positiv_letters.append(word[index])
-
-        if wildcard == 'b' and letter_places[index] == word[index]:
-            # this black letter should be green
-            return False
-
-        if wildcard == 'b':
-            black_letters.append(word[index])
-
-    if set(negativ_list) & set(positiv_letters) != set():
-        # some of these positiv ( yellow, green) letters shoud not be positiv
-        return False
-
-    if (set(black_letters) - set(positiv_letters)) & set(positiv_list) != set():
-        # some of these black letters shoud not be black
-        return False
-
-    return True
 
 
 def update_letter_lists(pattern, word ):
 
-    # update :
+    # update letter lists according to user input ( pattern, word) :
     #
-    # positiv_list
-    # negativ_list
-    # letter_places
-    # letter_no_place
-    # two_letter
-    # one_letter
+    # positiv_list     : letters  in word
+    # negativ_list     : letters not in the word
+    # letter_places    : letters on correct places
+    # letter_no_place  : letters not on correct places
+    # two_letter       : two or more letters xy in the word
+    # one_letter       : only one
 
     positiv_letter = []  # letters marked with yellow or green
 
@@ -184,54 +145,11 @@ def filter_list(prior_list):
 
 
 
-
-#############################################################################
-#
-# GUI root window
-
-root = tk.Tk()
-root.geometry("400x735")
-root.resizable(False, False)
-root.title("Little Wordl-Helper")
-
-root.columnconfigure(1, weight=1)
-root.rowconfigure(2, weight=1)
-root['background'] = 'grey'
-for widget in root.winfo_children():
-    widget.grid(padx=3, pady=5)
-
-
-def show_user_words(words, patterns):
-
-    for grid_row, elem in enumerate(words):
-
-        for grid_column in range(len(elem)):
-
-            wildcard = patterns[grid_row][grid_column]
-            wildcard = wildcard.lower()
-            if wildcard == 'g':
-                my_color = 'green'
-            elif wildcard == 'y':
-                my_color = 'gold'
-            else:
-                my_color = 'black'
-            my_letter = elem[grid_column].upper()
-
-            label = tk.Label(words_colored_frame, height=1, width=2, font=(
-                "Arial", 24), fg='white')
-            label['background'] = my_color
-            label['text'] = my_letter
-            label.grid(column=grid_column, row=grid_row, stick=tk.W)
-            label['relief'] = 'sunken'
-
-    for widget in words_colored_frame.winfo_children():
-        widget.grid(padx=1, pady=1)
-
 ##############################################################################
 #
 #  GUI   select language frame
 
-##########################################################################
+##############################################################################
 #
 # load the words
 
@@ -242,7 +160,7 @@ def load_selected_language():
 
     init_lists()
 
-    if language_selected.get() == "English":
+    if LanFr.language_selected.get() == "English":
         wordfile = ENG_WORD_FILE
     else:
         wordfile = GER_WORD_FILE
@@ -263,107 +181,63 @@ def load_selected_language():
     f.close()
 
     # filtered_words = sorted(filtered_words)
+
     filtered_words.sort()
-    list_items.set(filtered_words)
-    word_pattern_button['state'] = NORMAL
+    ShowFiltFr.list_items.set(filtered_words)
+
+    FiltFr.word_pattern_button['state'] = NORMAL
 
     showinfo(
         title='The Language',
-        message=language_selected.get()
+        message=LanFr.language_selected.get()
     )
 
-language_selected = tk.StringVar()
 
-language_frame = tk.Frame(root)
+class LanguageFrame(tk.Frame):
+    def __init__(self, container):
+        super().__init__(container)
+        self.language_selected = tk.StringVar()
+        self.language_label = ttk.Label(self, text='What is your Language? ')
+        self.language_label.grid(column=0, row=0)
 
-language_label = ttk.Label(language_frame, text='What is your Language? ')
-language_label.grid(column=0, row=0)
+        self.rb_english = ttk.Radiobutton(
+            self,
+            text='English',
+            value='English',
+            variable=self.language_selected)
+        self.rb_english.grid(column=0, row=1, sticky="W")
 
-rb_english = ttk.Radiobutton(
-    language_frame,
-    text='English',
-    value='English',
-    variable=language_selected)
-rb_english.grid(column=0, row=1, sticky="W")
+        self.rb_german = ttk.Radiobutton(
+            self,
+            text='Deutsch',
+            value='Deutsch',
+            variable=self.language_selected)
+        self.rb_german.grid(column=0, row=2, sticky="W")
 
-rb_german = ttk.Radiobutton(
-    language_frame,
-    text='Deutsch',
-    value='Deutsch',
-    variable=language_selected)
-rb_german.grid(column=0, row=2, sticky="W")
+        self.language_selected.set('English')
 
-language_selected.set('English')
+        self.language_start_button = ttk.Button(
+            self,
+            text='Start',
+            command=load_selected_language
+        )
 
-language_start_button = ttk.Button(
-    language_frame,
-    text='Start',
-    command=load_selected_language
-)
 
-language_start_button.grid(column=0, row=3)
+        self.grid(column=0, row=3)
 
-for widget in language_frame.winfo_children():
-    widget.grid(padx=3, pady=5)
+        for widget in self.winfo_children():
+            widget.grid(padx=3, pady=5)
 
-language_frame['relief'] = 'sunken'
-language_frame['background'] = 'red'
-language_frame.grid(column=0, row=0, padx=5, pady=5, sticky="W")
+        self['relief'] = 'sunken'
+        self['background'] = 'red'
+        self.grid(column=0, row=0, padx=5, pady=5, sticky="W")
+
+
 
 
 ################################################################
 #
 # GUI user input and filter Frame (user_word and pattern)
-
-
-my_words = []      # words, the user typed
-my_patterns = []   # gamereaction , transscripted from user in a pattern like 'bbygb'
-
-
-user_word = tk.StringVar()
-pattern = tk.StringVar()
-
-
-def check_user_input():
-
-    # prove user input
-
-    abc_set = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-               'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
-    wildcard_set = {'g', 'y', 'b', 'G', 'Y', 'B'}
-    pattern_set = set(pattern.get())
-    word_set = set(user_word.get().lower())
-
-    if len(user_word.get()) != WORD_LENGTH_NEEDED or len(pattern.get()) != WORD_LENGTH_NEEDED:
-
-        showinfo(
-            title='Wrong length!',
-            message=f'{WORD_LENGTH_NEEDED} letters needed!'
-        )
-        return False
-
-    if wildcard_set != wildcard_set | pattern_set:
-        showinfo(
-            title='Wrong pattern',
-            message='Only y,Y, g,G or b,B allowed !'
-        )
-        return False
-
-    if abc_set != abc_set | word_set:
-        showinfo(
-            title='Wrong letters',
-            message='Only ASCII a, b, c ... allowed'
-        )
-        return False
-
-    if check_if_consistent(pattern.get(), user_word.get()) == False:
-        showinfo(
-            title='Logic !',
-            message='Your input is not consistent'
-        )
-        return False
-
-    return True
 
 
 def init_lists():
@@ -389,30 +263,125 @@ def init_lists():
         my_words.append('     ')
         my_patterns.append('bbbbb')
 
-    show_user_words(my_words, my_patterns)
+    WordsColoredFrame.show_user_words(WordsColFr,my_words, my_patterns)
 
     filtered_words.clear()
-    user_word.set('')
-    pattern.set('')
+    FiltFr.user_word.set('')
+    FiltFr.pattern.set('')
+
+
+def check_user_input(word, pattern):
+    """ Validate user input """
+
+
+    abc_set = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+               'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
+    wildcard_set = {'g', 'y', 'b', 'G', 'Y', 'B'}
+
+    pattern_set = set(pattern)
+    word_set = set(word.lower())
+
+
+    if len(word) != WORD_LENGTH_NEEDED or len(pattern) != WORD_LENGTH_NEEDED:
+
+        showinfo(
+            title='Wrong length!',
+            message=f'{WORD_LENGTH_NEEDED} letters needed!'
+        )
+        return False
+
+    if wildcard_set != wildcard_set | pattern_set:
+        showinfo(
+            title='Wrong pattern',
+            message='Only y,Y, g,G or b,B allowed !'
+        )
+        return False
+
+    if abc_set != abc_set | word_set:
+        showinfo(
+            title='Wrong letters',
+            message='Only ASCII a, b, c ... allowed'
+        )
+        return False
+
+    if check_if_consistent(pattern, word) == False:
+        showinfo(
+            title='Logic !',
+            message='Your input is not consistent'
+        )
+        return False
+
+    return True
+
+
+def check_if_consistent(pattern, word):
+    '''check if current inputs (pattern, word) contradicts earlier inputs '''
+
+    positiv_letters = []  # letters marked with yellow (y) or green/orange (g)
+    black_letters = []    # letters marked with black/grey (b)
+
+    word = word.upper()
+    pattern = pattern.lower()
+
+    for index, wildcard in enumerate(pattern):
+
+        if wildcard == 'g':
+            # wrong green letter on this place
+            if letter_places[index] != '' and letter_places[index] != word[index]:
+                return False
+
+        if wildcard == 'y':
+            if letter_places[index] == word[index]:
+                return False
+
+        if wildcard == 'g' or wildcard == 'y':
+            # print('wildcard  g und y')
+            positiv_letters.append(word[index])
+
+        if wildcard == 'b' and letter_places[index] == word[index]:
+            # this black letter should be green
+            return False
+
+        if wildcard == 'b':
+            black_letters.append(word[index])
+
+    if set(negativ_list) & set(positiv_letters) != set():
+        # some of these positiv ( yellow, green) letters shoud not be positiv
+        return False
+
+    if (set(black_letters) - set(positiv_letters)) & set(positiv_list) != set():
+        # some of these black letters shoud not be black
+        return False
+
+    return True
 
 def handle_user_input():
-
+    ''' 
+    callback from Button click (word_pattern_button in FilterFrame) 
+    1) Check, if user input (word and pattern) is valid
+    2) if so , reduce the filtered words
+    3) show filtered word list and all user inputs
+    '''
     global player_try
+    global filtered_words
 
-    if check_user_input():
+    word_input = FiltFr.user_word.get()
+    pattern_input = FiltFr.pattern.get()
 
-        language_start_button['state'] = DISABLED
+    if check_user_input(word_input, pattern_input):
 
-        global filtered_words
+        LanFr.language_start_button['state'] = DISABLED
 
-        update_letter_lists(pattern.get().lower(), user_word.get().upper())
+        
+
+        update_letter_lists(pattern_input.lower(), word_input.upper())
 
         filtered_words = filter_list(filtered_words)
 
-        list_items.set(filtered_words)
+        ShowFiltFr.list_items.set(filtered_words)
 
-        my_words[player_try] = user_word.get()
-        my_patterns[player_try] = pattern.get()
+        my_words[player_try] = word_input
+        my_patterns[player_try] = pattern_input
 
         player_try += 1
 
@@ -420,7 +389,7 @@ def handle_user_input():
         # print('try',player_try)
         # print(my_words)
 
-        show_user_words(my_words, my_patterns)
+        WordsColoredFrame.show_user_words(WordsColFr, my_words, my_patterns)
 
         if player_try == MAXIMUM_TRIES or len(filtered_words) < 4:
 
@@ -429,116 +398,154 @@ def handle_user_input():
                 message=f'Try {player_try}, rest {len(filtered_words)} words.'
             )
 
-            word_pattern_button['state'] = DISABLED
-            language_start_button['state'] = NORMAL
+            FiltFr.word_pattern_button['state'] = DISABLED
+            LanFr.language_start_button['state'] = NORMAL
 
-        user_word.set('')
-        pattern.set('')
-
-
-filter_frame = tk.Frame(root)
+        FiltFr.user_word.set('')
+        FiltFr.pattern.set('')
 
 
-filter_frame.columnconfigure(1, weight=1)
-# filter_frame.rowconfigure(2, weight=1)
 
-word_label = ttk.Label(filter_frame, text='Your word :',
+class FilterFrame(tk.Frame):
+    def __init__(self, container):
+        super().__init__(container)
+
+        self.columnconfigure(1, weight=1)
+
+
+        self.user_word = tk.StringVar()
+        self.pattern = tk.StringVar()
+        self.word_label = ttk.Label(self, text='Your word :',
                         font=('Courier New', 12))
-word_entry = ttk.Entry(filter_frame, width=6,
-                       textvariable=user_word, font=('Courier New', 12))
-
-word_label.grid(column=0, row=0, sticky=tk.W)
-word_entry.grid(column=1, row=0, sticky=tk.E)
-word_entry.focus()
-
-pattern_label = ttk.Label(
-    filter_frame, text='Pattern, use y, g, b:', font=('Courier New', 12))
-pattern_entry = ttk.Entry(filter_frame, width=6,
-                          textvariable=pattern, font=('Courier New', 12))
-
-pattern_label.grid(column=0, row=1, sticky=tk.W)
-pattern_entry.grid(column=1, row=1, sticky=tk.E)
+        self.word_entry = ttk.Entry(self, width=6,
+                       textvariable=self.user_word, font=('Courier New', 12))
+        self. word_label.grid(column=0, row=0, sticky=tk.W)
+        self.word_entry.grid(column=1, row=0, sticky=tk.E)
+        self.word_entry.focus()
 
 
-word_pattern_button = ttk.Button(filter_frame, state=DISABLED,
+        self.pattern_label = ttk.Label(self, text='Pattern, use y, g, b:', 
+                                        font=('Courier New', 12))
+        self.pattern_entry = ttk.Entry(self, width=6,
+                          textvariable=self.pattern, font=('Courier New', 12))
+        self.pattern_label.grid(column=0, row=1, sticky=tk.W)
+        self.pattern_entry.grid(column=1, row=1, sticky=tk.E)
+
+        self.word_pattern_button = ttk.Button(self, state=DISABLED,
                                  text='Try word and pattern ! ', command=handle_user_input)
-word_pattern_button.grid(column=0, row=3, columnspan=2)
+        self.word_pattern_button.grid(column=0, row=3, columnspan=2)
+        for widget in self.winfo_children():
+            widget.grid(padx=3, pady=5)
+        self['relief'] = 'sunken'
+        self['background'] = 'red'
+        self.grid(column=0, row=1, columnspan=3, sticky=tk.EW, padx=5, pady=5)
+        
 
-for widget in filter_frame.winfo_children():
-    widget.grid(padx=3, pady=5)
-
-
-filter_frame['relief'] = 'sunken'
-filter_frame['background'] = 'red'
-filter_frame.grid(column=0, row=1, columnspan=3, sticky=tk.EW, padx=5, pady=5)
 
 ###################################################################################
 #
 # GUI
 # Show list of colored user words (Words/pattern)
 
+class WordsColoredFrame(tk.Frame):
+    def __init__(self, container):
+        super().__init__(container)
+
+        self.columnconfigure(WORD_LENGTH_NEEDED, weight=1)
+        self.rowconfigure(MAXIMUM_TRIES, weight=1)
+        self.grid(column=1, row=2, padx=5, pady=5, sticky=tk.N)
+
+        self['relief'] = 'sunken'
+        self['background'] = 'white'
 
 
-words_colored_frame = tk.Frame(root)
-words_colored_frame.columnconfigure(WORD_LENGTH_NEEDED, weight=1)
-words_colored_frame.rowconfigure(MAXIMUM_TRIES, weight=1)
+    def show_user_words(self, words, patterns):
 
+        for grid_row, elem in enumerate(words):
 
-words_colored_frame.grid(column=1, row=2, padx=5, pady=5, sticky=tk.N)
+            for grid_column in range(len(elem)):
 
-words_colored_frame['relief'] = 'sunken'
-words_colored_frame['background'] = 'white'
+                wildcard = patterns[grid_row][grid_column]
+                wildcard = wildcard.lower()
+                if wildcard == 'g':
+                    my_color = 'green'
+                elif wildcard == 'y':
+                    my_color = 'gold'
+                else:
+                    my_color = 'black'
+                my_letter = elem[grid_column].upper()
+
+                self.label = tk.Label(self, height=1, width=2, font=("Arial", 24), fg='white')
+                self.label['background'] = my_color
+                self.label['text'] = my_letter
+                self.label.grid(column=grid_column, row=grid_row, stick=tk.W)
+                self.label['relief'] = 'sunken'
+
+        for widget in self.winfo_children():
+            widget.grid(padx=1, pady=1)
+
 
 #############################################################################################
 #
 # GUI Listbox and Scrollbar
 # Show the filtered words
 
+class ShowFilteredFrame(tk.Frame):
+    def __init__(self, container):
+        super().__init__(container)
 
-show_filtered_frame = tk.Frame(root)
-
-list_items = tk.StringVar(value=filtered_words)
-
-
-myListbox = tk.Listbox(show_filtered_frame, listvariable=list_items,
+        self.list_items = tk.StringVar(value=filtered_words)
+        self.myListbox = tk.Listbox(self, listvariable=self.list_items,
                         height=19, width=7, exportselection = False)
 
 
-# exportselection : Setting it to False prevents the export 
-# of the selection to the X selection, 
-# allowing the widget to retain its selection when a different widget gets focus.
+        self.myListbox.grid(row=0, column=0, sticky=tk.EW)
+        self.myListbox.config(font=("Arial", 16))
 
-# myListbox : scrolling does not show the last word, if height = 20
-
-myListbox.grid(row=0, column=0, sticky=tk.EW)
-myListbox.config(font=("Arial", 16))
+        self.myListbox.bind("<<ListboxSelect>>", self.item_selected)
 
 
+        self.scrollbar = ttk.Scrollbar(self, orient='vertical',  command=self.myListbox.yview)
+        self.scrollbar.grid(row=0, column=1, sticky=tk.NS)
 
-def item_selected(event):
-    # selected_indice = myListbox.curselection()
-    # selected_word = myListbox.get(selected_indice)
-    selected_word = myListbox.get(ANCHOR)
-    msg = f'You selected: {selected_word}'
-    showinfo(title= "Listbox - Info", message=msg)
-    myListbox.select_clear(0, tk.END)
-
-    user_word.set(selected_word)
-    # word_entry.focus()
-
-myListbox.bind("<<ListboxSelect>>", item_selected)
+        self.myListbox['yscrollcommand'] = self.scrollbar.set
+        self.grid(column=0, row=2, padx=5, pady=5)
+        self['relief'] = 'sunken'
+        self['background'] = 'red'
 
 
-# Bind a Scrollbar per command
+    def item_selected(self, event):
 
-scrollbar = ttk.Scrollbar(
-    show_filtered_frame, orient='vertical',  command=myListbox.yview)
-scrollbar.grid(row=0, column=1, sticky=tk.NS)
+        selected_indice = self.myListbox.curselection()
+        selected_word = self.myListbox.get(selected_indice)
 
-myListbox['yscrollcommand'] = scrollbar.set
+        # selected_word = self.myListbox.get(ANCHOR)
+        msg = f'You selected: {selected_word}'
+        showinfo(title= "Listbox - Info", message=msg)
+        self.myListbox.select_clear(0, tk.END)
 
-show_filtered_frame.grid(column=0, row=2, padx=5, pady=5)
-show_filtered_frame['relief'] = 'sunken'
-show_filtered_frame['background'] = 'red'
+        FiltFr.user_word.set(selected_word)
+        # word_entry.focus()
 
-root.mainloop()
+    
+
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("400x735")
+        self.resizable(False, False)
+        self.title("Little Wordl-Helper")
+        self.columnconfigure(1, weight=1)
+        self.rowconfigure(2, weight=1)
+        self['background'] = 'grey'
+        for widget in self.winfo_children():
+            widget.grid(padx=3, pady=5)
+
+
+if __name__ == "__main__":
+    app = App()
+    LanFr = LanguageFrame(app)
+    FiltFr = FilterFrame(app)
+    ShowFiltFr = ShowFilteredFrame(app)
+    WordsColFr = WordsColoredFrame(app)
+    app.mainloop()
