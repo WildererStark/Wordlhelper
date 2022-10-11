@@ -49,6 +49,7 @@ my_patterns = []   # gamereaction , transscripted from user in a pattern like 'b
 
 
 
+
 def update_letter_lists(pattern, word ):
 
     # update letter lists according to user input ( pattern, word) :
@@ -65,6 +66,7 @@ def update_letter_lists(pattern, word ):
     for index, letter in enumerate(word):
 
         if pattern[index] == "g":
+            # green/orange Letter is correct on this place
             positiv_letter.append(letter)
             if letter_places[index] == '':
                 letter_places[index] = letter
@@ -86,18 +88,20 @@ def update_letter_lists(pattern, word ):
     letter_list = list(letter_set)
     for letter in letter_list:
         if positiv_letter.count(letter) >= 2:
+            # two or more of this letter in the word
             two_letter.append(letter)
 
     for index, letter in enumerate(word):
 
         if pattern[index] == "b":
-            # letter could be positiv
+            # black/grey letter not on this place but could be positiv,if
 
             if letter not in positiv_list:
                 negativ_list.append(letter)
             else:
                 if positiv_letter.count(letter) == 1 :
                     one_letter.append(letter)
+                    # we know now, only one of letter in the word
                 letter_no_place[index] += letter
 
     #
@@ -115,9 +119,12 @@ def update_letter_lists(pattern, word ):
 def filter_list(prior_list):
 
 
+    # we exploit the negativ_list and the positiv_list for reducing :
     our_list = list(filter( lambda word: set(word).isdisjoint(negativ_list), prior_list))
     our_list = list(filter( lambda word: set(positiv_list).issubset(set(word)), our_list))
  
+
+    # we build a regex string with letter_places
     regex =''
     for c in letter_places:
         if c =='':
@@ -128,6 +135,7 @@ def filter_list(prior_list):
     reg_pattern = re.compile(regex)
     our_list = [word for word in our_list if reg_pattern.match(word)]
 
+    # more reducing possibilities :
     def misc_filter(word):
         for index, letter in enumerate(word):
             if letter in letter_no_place[index]:
@@ -223,7 +231,7 @@ class LanguageFrame(tk.Frame):
         )
 
 
-        self.grid(column=0, row=3)
+        self.language_start_button.grid(column=0, row=3)
 
         for widget in self.winfo_children():
             widget.grid(padx=3, pady=5)
@@ -359,8 +367,8 @@ def handle_user_input():
     ''' 
     callback from Button click (word_pattern_button in FilterFrame) 
     1) Check, if user input (word and pattern) is valid
-    2) if so , reduce the filtered words
-    3) show filtered word list and all user inputs
+    2) if so , reduce the word list (filtered_words)
+    3) show reduced word list in a listbox and all user inputs (words/patterns)
     '''
     global player_try
     global filtered_words
@@ -371,8 +379,7 @@ def handle_user_input():
     if check_user_input(word_input, pattern_input):
 
         LanFr.language_start_button['state'] = DISABLED
-
-        
+       
 
         update_letter_lists(pattern_input.lower(), word_input.upper())
 
@@ -413,27 +420,35 @@ class FilterFrame(tk.Frame):
         self.columnconfigure(1, weight=1)
 
 
-        self.user_word = tk.StringVar()
-        self.pattern = tk.StringVar()
+        # word Label
         self.word_label = ttk.Label(self, text='Your word :',
                         font=('Courier New', 12))
+        self. word_label.grid(column=0, row=0, sticky=tk.W)
+
+        # word entry
+        self.user_word = tk.StringVar()
         self.word_entry = ttk.Entry(self, width=6,
                        textvariable=self.user_word, font=('Courier New', 12))
-        self. word_label.grid(column=0, row=0, sticky=tk.W)
         self.word_entry.grid(column=1, row=0, sticky=tk.E)
         self.word_entry.focus()
 
-
-        self.pattern_label = ttk.Label(self, text='Pattern, use y, g, b:', 
+        # pattern Label
+        self.pattern_label = ttk.Label(self, text='Pattern,use y,g,b : e.g. ygbgb', 
                                         font=('Courier New', 12))
+        self.pattern_label.grid(column=0, row=1, sticky=tk.W)
+
+        # pattern entry
+        self.pattern = tk.StringVar()
         self.pattern_entry = ttk.Entry(self, width=6,
                           textvariable=self.pattern, font=('Courier New', 12))
-        self.pattern_label.grid(column=0, row=1, sticky=tk.W)
         self.pattern_entry.grid(column=1, row=1, sticky=tk.E)
 
+        # button
         self.word_pattern_button = ttk.Button(self, state=DISABLED,
                                  text='Try word and pattern ! ', command=handle_user_input)
         self.word_pattern_button.grid(column=0, row=3, columnspan=2)
+
+
         for widget in self.winfo_children():
             widget.grid(padx=3, pady=5)
         self['relief'] = 'sunken'
@@ -445,7 +460,7 @@ class FilterFrame(tk.Frame):
 ###################################################################################
 #
 # GUI
-# Show list of colored user words (Words/pattern)
+# Show list of  user words with colored background  (Words/pattern as background color)
 
 class WordsColoredFrame(tk.Frame):
     def __init__(self, container):
@@ -541,11 +556,16 @@ class App(tk.Tk):
         for widget in self.winfo_children():
             widget.grid(padx=3, pady=5)
 
+ 
 
 if __name__ == "__main__":
+
     app = App()
+
+
     LanFr = LanguageFrame(app)
     FiltFr = FilterFrame(app)
     ShowFiltFr = ShowFilteredFrame(app)
     WordsColFr = WordsColoredFrame(app)
+
     app.mainloop()
